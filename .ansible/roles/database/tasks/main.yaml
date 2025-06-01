@@ -1,0 +1,50 @@
+- name: Add MongoDB apt key
+  ansible.builtin.apt_key:
+    url: "{{ mongodb_apt_key_url }}"
+    state: present
+
+- name: Add MongoDB repository
+  ansible.builtin.apt_repository:
+    repo: "{{ mongodb_repo }}"
+    state: present
+
+- name: Install MongoDB
+  ansible.builtin.apt:
+    name: mongodb-org
+    update_cache: true
+
+- name: Install pip
+  ansible.builtin.apt:
+    name: python3-pip
+
+- name: Install pymongo
+  ansible.builtin.pip:
+    name: pymongo
+
+- name: Configure MongoDB
+  ansible.builtin.template:
+    src: mongod.conf.j2
+    dest: /etc/mongod.conf
+
+- name: Enable MongoDB service
+  ansible.builtin.service:
+    name: mongod
+    state: started
+    enabled: true
+
+- name: Create MongoDB admin user
+  community.mongodb.mongodb_user:
+    database: admin
+    name: "{{ database_admin }}"
+    password: "{{ database_password }}"
+    roles: "root"
+  ignore_errors: true
+
+- name: Create MongoDB user
+  community.mongodb.mongodb_user:
+    login_user: "{{ database_admin }}"
+    login_password: "{{ database_password }}"
+    database: "{{ database_name }}"
+    name: "{{ database_user }}"
+    password: "{{ database_password }}"
+    roles: "readWrite"

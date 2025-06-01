@@ -1,0 +1,9 @@
+app_1_ip: "{{ hostvars['app_1']['ansible_host'] }}"
+app_2_ip: "{{ hostvars['app_2']['ansible_host'] }}"
+app_port: 3000
+database_ip: "{{ hostvars['db']['ansible_host'] }}"
+database_port: 27017
+database_name: "{{ vault_database_name }}"
+database_admin: "{{ vault_database_admin }}"
+database_user: "{{ vault_database_user }}"
+database_password: "{{ vault_database_password }}"

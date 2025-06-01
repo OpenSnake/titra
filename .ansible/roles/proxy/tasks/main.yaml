@@ -1,0 +1,21 @@
+- name: Install nginx
+  ansible.builtin.apt:
+    name: nginx
+    update_cache: true
+
+- name: Remove default site
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Configure titra site
+  ansible.builtin.template:
+    src: titra.conf.j2
+    dest: /etc/nginx/sites-available/titra.conf
+
+- name: Enable titra site
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/titra.conf
+    dest: /etc/nginx/sites-enabled/titra.conf
+    state: link
+  notify: Reload nginx

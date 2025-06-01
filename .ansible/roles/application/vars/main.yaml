@@ -1,0 +1,4 @@
+node_setup_script_url: https://deb.nodesource.com/setup_22.x
+app_dir: /home/vagrant
+app_url: "http://{{ ansible_host }}:{{ app_port }}"
+mongo_url: "mongodb://{{ database_user }}:{{ database_password }}@{{ database_ip }}:{{ database_port }}/{{ database_name }}"

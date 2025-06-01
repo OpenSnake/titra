@@ -1,0 +1,39 @@
+- name: Download Node.js setup script
+  ansible.builtin.get_url:
+    url: "{{ node_setup_script_url }}"
+    dest: /tmp/nodesource_setup.sh
+
+- name: Run Node.js setup script
+  ansible.builtin.command:
+    cmd: bash /tmp/nodesource_setup.sh
+
+- name: Install Node.js
+  ansible.builtin.apt:
+    name: nodejs
+    state: present
+
+- name: Install pm2
+  community.general.npm:
+    name: pm2
+    global: yes
+    state: present
+
+- name: Extract artifact from Ansible machine to Titra
+  ansible.builtin.unarchive:
+    src: titra.tar.gz
+    dest: "{{ app_dir }}"
+
+- name: Install dependencies
+  community.general.npm:
+    path: "{{ app_dir }}/bundle/programs/server"
+
+- name: Start Titra app using pm2
+  ansible.builtin.command:
+  args:
+    cmd: pm2 start main.js
+    chdir: "{{ app_dir }}/bundle"
+  environment:
+    ROOT_URL: "{{ app_url }}"
+    PORT: "{{ app_port }}"
+    MONGO_URL: "{{ mongo_url }}"
+  ignore_errors: true

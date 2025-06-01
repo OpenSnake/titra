@@ -1,0 +1,17 @@
+- name: Setup MongoDB
+  hosts: mongodb
+  become: true
+  roles:
+    - database
+
+- name: Setup Titra app
+  hosts: titra
+  become: true
+  roles:
+    - application
+
+- name: Setup nginx
+  hosts: nginx
+  become: true
+  roles:
+    - proxy

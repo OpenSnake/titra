@@ -1,0 +1,2 @@
+mongodb_apt_key_url: https://www.mongodb.org/static/pgp/server-4.4.asc
+mongodb_repo: deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse
