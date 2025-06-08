@@ -1,0 +1,53 @@
+pipeline {
+    agent {label 'node'}
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/OpenSnake/titra.git'
+            }
+        }
+
+        stage('Install dependencies') {
+            steps {
+                sh 'meteor npm ci'
+            }
+        }
+
+        stage('Run linting') {
+            steps {
+                script {
+                  try {
+                    sh 'meteor npx eslint . --fix'
+                  } catch (err) {
+                    echo "Linting failed, but we are moving on"
+                    }
+                }
+            }
+        }
+
+        stage('Run tests') {
+            steps {
+                sh 'meteor npx jest tests'
+            }
+        }
+
+        stage('Run build') {
+            steps {
+                sh 'meteor build ../'
+            }
+        }
+
+    }
+
+    post {
+        success {
+            echo '✅ Continuous Integration completed successfully'
+        }
+        failure {
+            echo '❌ Continuous Integration has not been successfully completed'
+        }
+
+    }
+}

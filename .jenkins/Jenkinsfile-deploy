@@ -1,0 +1,25 @@
+pipeline {
+    agent {label 'node'}
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/OpenSnake/titra.git'
+            }
+        }
+
+    stage('Download Artifact') {
+        steps {
+            sh 'sudo cp ../../secret_password secret_password'
+            sh 'sudo cp ../titra.tar.gz .ansible/titra.tar.gz'
+        }
+    }
+
+    stage('Deploy') {
+        steps {
+            sh 'cd .ansible && ansible-playbook playbook.yaml --vault-password-file ../secret_password'
+        }
+    }
+
+    }
+}
