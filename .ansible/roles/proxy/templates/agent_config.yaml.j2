@@ -11,14 +11,23 @@ receivers:
       disk:
       network:
       load:
+  filelog:
+    include:
+      - "/var/log/nginx/access.log"
+      - "/var/log/nginx/error.log"
 
 processors:
   batch:
 
 exporters:
-  splunk_hec:
+  splunk_hec/metrics:
     token: "{{ hec_token }}"
     endpoint: "http://192.168.56.150:8088"
+    index: "nginx_metrics"
+  splunk_hec/logs:
+    token: "{{ hec_token }}"
+    endpoint: "http://192.168.56.150:8088"
+    index: "nginx_logs"
 
 service:
   extensions: [health_check]
@@ -26,4 +35,8 @@ service:
     metrics:
       receivers: [hostmetrics]
       processors: [batch]
-      exporters: [splunk_hec]
+      exporters: [splunk_hec/metrics]
+    logs:
+      receivers: [filelog]
+      processors: [batch]
+      exporters: [splunk_hec/logs]

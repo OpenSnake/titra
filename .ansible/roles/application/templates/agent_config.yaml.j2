@@ -16,9 +16,10 @@ processors:
   batch:
 
 exporters:
-  splunk_hec:
+  splunk_hec/metrics:
     token: "{{ hec_token }}"
     endpoint: "http://192.168.56.150:8088"
+    index: "app{{ groups['titra'].index(inventory_hostname) + 1 }}"
 
 service:
   extensions: [health_check]
@@ -26,4 +27,4 @@ service:
     metrics:
       receivers: [hostmetrics]
       processors: [batch]
-      exporters: [splunk_hec]
+      exporters: [splunk_hec/metrics]
