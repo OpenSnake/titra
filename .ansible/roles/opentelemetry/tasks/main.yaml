@@ -15,11 +15,6 @@
 
 - name: Configure Otel Collector
   ansible.builtin.template:
-    src: mongod.conf.j2
-    dest: /etc/mongod.conf
-
-- name: Configure Otel Collector
-  ansible.builtin.template:
     src: splunk-otel-collector.conf.j2
     dest: nano /etc/otel/collector/splunk-otel-collector.conf
 
