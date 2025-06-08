@@ -16,7 +16,7 @@
 - name: Configure Otel Collector
   ansible.builtin.template:
     src: splunk-otel-collector.conf.j2
-    dest: nano /etc/otel/collector/splunk-otel-collector.conf
+    dest: /etc/otel/collector/splunk-otel-collector.conf
 
 - name: Enable Otel Collector service
   ansible.builtin.service:
