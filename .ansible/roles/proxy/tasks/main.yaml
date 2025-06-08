@@ -20,6 +20,11 @@
     state: link
   notify: Reload nginx
 
+- name: Create OpenTelemetry directory
+  ansible.builtin.file:
+    path: /etc/otel/collector
+    state: directory
+
 - name: Configure OpenTelemetry Agent
   ansible.builtin.template:
     src: agent_config.yaml.j2
