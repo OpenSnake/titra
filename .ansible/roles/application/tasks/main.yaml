@@ -37,3 +37,8 @@
     PORT: "{{ app_port }}"
     MONGO_URL: "{{ mongo_url }}"
   ignore_errors: true
+
+- name: Configure OpenTelemetry Agent
+  ansible.builtin.template:
+    src: agent_config.yaml.j2
+    dest: /etc/otel/collector/agent_config.yaml

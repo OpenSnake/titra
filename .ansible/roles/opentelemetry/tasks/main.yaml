@@ -1,0 +1,30 @@
+- name: Add Otel apt key
+  ansible.builtin.apt_key:
+    url: "{{ otel_apt_key_url }}"
+    state: present
+
+- name: Add Otel repository
+  ansible.builtin.apt_repository:
+    repo: "{{ otel_repo }}"
+    state: present
+
+- name: Install OpenTelemetry Collector
+  ansible.builtin.apt:
+    name: splunk-otel-collector
+    update_cache: true
+
+- name: Configure Otel Collector
+  ansible.builtin.template:
+    src: mongod.conf.j2
+    dest: /etc/mongod.conf
+
+- name: Configure Otel Collector
+  ansible.builtin.template:
+    src: splunk-otel-collector.conf.j2
+    dest: nano /etc/otel/collector/splunk-otel-collector.conf
+
+- name: Enable Otel Collector service
+  ansible.builtin.service:
+    name: splunk-otel-collector
+    state: started
+    enabled: true

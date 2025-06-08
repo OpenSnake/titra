@@ -1,0 +1,2 @@
+otel_apt_key_url: https://splunk.jfrog.io/splunk/otel-collector-deb/splunk-B3CD4420.gpg
+otel_repo: deb https://splunk.jfrog.io/splunk/otel-collector-deb release main

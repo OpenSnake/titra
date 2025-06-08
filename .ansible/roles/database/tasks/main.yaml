@@ -48,3 +48,8 @@
     name: "{{ database_user }}"
     password: "{{ database_password }}"
     roles: "readWrite"
+
+- name: Configure OpenTelemetry Agent
+  ansible.builtin.template:
+    src: agent_config.yaml.j2
+    dest: /etc/otel/collector/agent_config.yaml

@@ -3,15 +3,18 @@
   become: true
   roles:
     - database
+    - opentelemetry
 
 - name: Setup Titra app
   hosts: titra
   become: true
   roles:
     - application
+    - opentelemetry
 
 - name: Setup nginx
   hosts: nginx
   become: true
   roles:
     - proxy
+    - opentelemetry
