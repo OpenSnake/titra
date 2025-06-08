@@ -19,7 +19,7 @@ exporters:
   splunk_hec/metrics:
     token: "{{ hec_token }}"
     endpoint: "http://192.168.56.150:8088"
-    index: "app{{ groups['titra'].index(inventory_hostname) + 1 }}"
+    index: "app{{ groups['titra'].index(inventory_hostname) + 1 }}_metrics"
 
 service:
   extensions: [health_check]
