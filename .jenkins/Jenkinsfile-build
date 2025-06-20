@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     def timestamp = new Date().format("yyyyMMdd-HHmmss", TimeZone.getTimeZone('UTC'))
-                    sh "docker build -t titra:${timestamp} ."
+                    sh "sudo docker build -t titra:${timestamp} ."
                 }
             }
         }
